@@ -3,18 +3,22 @@
 #include <vector>
 #include <string>
 
+using std::cin;
+using std::cout;
+using std::vector;
+
 struct Item {
     /*I'm not sure exactly why i need to define this string here but it didn't compile
     * without it and a guy on stackoverflow said this would fix it. Bizarre times.
     * edit. found it, i think it@s because i created my constructor right after this. my bad
     */
-    std::string name;
+    string name;
     double price;
     int stockCount;
     bool isAvailable;
 
     // Setting up a constructor for "item"
-    Item(std::string n = "", double p = 0.00, int s = 0)
+    Item(string n = "", double p = 0.00, int s = 0)
         : name(n), price(p), stockCount(s), isAvailable(s > 0) {
     }
 };
@@ -22,29 +26,29 @@ struct Item {
 // Function to let the user input money
 void inputMoney(double& totalMoney) {
     double amount;
-    std::cout << "Enter the amount of money you're adding: £";
-    std::cin >> amount;
+    cout << "Enter the amount of money you're adding: £";
+    cin >> amount;
 
     if (amount > 0) {
         totalMoney += amount;
-        std::cout << "You now have £" << totalMoney << " available.\n";
+        cout << "You now have £" << totalMoney << " available.\n";
     }
     else {
-        std::cout << "Invalid amount. Please enter a positive value.\n";
+        cout << "Invalid amount. Please enter a positive value.\n";
     }
 }
 
-void buyItem(double& totalMoney, std::vector<std::vector<Item>>& vendingMachine) {
+void buyItem(double& totalMoney, vector<vector<Item>>& vendingMachine) {
     // declaring the vector here caused me serious issues, see spec sheet for more details
     int row, col;
-    std::cout << "Enter the row (0-4) of the item you want to buy: ";
-    std::cin >> row;
-    std::cout << "Enter the column (0-4) of the item you want to buy: ";
-    std::cin >> col;
+    cout << "Enter the row (0-4) of the item you want to buy: ";
+    cin >> row;
+    cout << "Enter the column (0-4) of the item you want to buy: ";
+    cin >> col;
 
     // validate coordinates
     if (row < 0 || row >= 5 || col < 0 || col >= 5) {
-        std::cout << "invalid item!\n";
+        cout << "invalid item!\n";
         return;
     }
 
@@ -52,11 +56,11 @@ void buyItem(double& totalMoney, std::vector<std::vector<Item>>& vendingMachine)
 
     // Check availability and funds
     if (!item.isAvailable) {
-        std::cout << "the item that you selected: \"" << item.name << "\" is out of stock. sorry!\n";
+        cout << "the item that you selected: \"" << item.name << "\" is out of stock. sorry!\n";
         return;
     }
     else if (totalMoney < item.price) {
-        std::cout << "not enough money for \"" << item.name << "\". You need £"
+        cout << "not enough money for \"" << item.name << "\". You need £"
             << item.price - totalMoney << " more!\n";
         return;
     }
@@ -65,13 +69,13 @@ void buyItem(double& totalMoney, std::vector<std::vector<Item>>& vendingMachine)
         totalMoney -= item.price;
         item.stockCount--;
         item.isAvailable = (item.stockCount > 0);
-        std::cout << "thank you for buying \"" << item.name << "\"! Your new balance is £" << totalMoney << ".\n";
+        cout << "thank you for buying \"" << item.name << "\"! Your new balance is £" << totalMoney << ".\n";
     }
 }
 
 int main() {
     // Create a 5x5 vending machine grid
-    std::vector<std::vector<Item>> vendingMachine(5, std::vector<Item>(5));
+    vector<vector<Item>> vendingMachine(5, vector<Item>(5));
 
     vendingMachine[0][0] = Item("Coke", 1.50, 10);
     vendingMachine[0][1] = Item("Walkers ready salted", 1.00, 5);
@@ -109,28 +113,28 @@ int main() {
     // User menu
     int choice;
     do {
-        std::cout << "\nVending Machine Menu:\n";
-        std::cout << "1. Input money!\n";
-        std::cout << "2. View total money!\n";
-        std::cout << "3. Display full selection!\n";
-        std::cout << "4. Buy an item!\n";
-        std::cout << "5. Exit!\n";
-        std::cout << "Enter your choice: ";
-        std::cin >> choice;
+        cout << "\nVending Machine Menu:\n";
+        cout << "1. Input money!\n";
+        cout << "2. View total money!\n";
+        cout << "3. Display full selection!\n";
+        cout << "4. Buy an item!\n";
+        cout << "5. Exit!\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
 
         switch (choice) {
         case 1:
             inputMoney(totalMoney); // Call the function to input money
             break;
         case 2:
-            std::cout << "You have £" << totalMoney << "!\n";
+            cout << "You have £" << totalMoney << "!\n";
             break;
         case 3:
             // Display the entire vending machine stock
             for (int i = 0; i < vendingMachine.size(); ++i) {
                 for (int j = 0; j < vendingMachine[i].size(); ++j) {
                     const Item& item = vendingMachine[i][j];
-                    std::cout << "Item at (" << i << ", " << j << "): "
+                    cout << "Item at (" << i << ", " << j << "): "
                         << item.name << " | £" << item.price
                         << " | Stock: " << item.stockCount
                         << (item.isAvailable ? " | Available" : " | Out of Stock")
@@ -142,10 +146,10 @@ int main() {
             buyItem(totalMoney, vendingMachine); // Call the function to buy an item
             break;
         case 5:
-            std::cout << "see you later!\n";
+            cout << "see you later!\n";
             break;
         default:
-            std::cout << "Invalid choice. Please select again.\n";
+            cout << "Invalid choice. Please select again.\n";
         }
     } while (choice != 5);
 
