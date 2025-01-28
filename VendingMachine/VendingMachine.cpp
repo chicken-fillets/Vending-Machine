@@ -104,7 +104,7 @@ int main() {
     vendingMachine[4][2] = Item("Protein Bar", 2.75, 3);
     vendingMachine[4][3] = Item("mcvities select pack", 3.00, 2);
     vendingMachine[4][4] = Item("hot chocolate sachets", 2.00, 4);
-
+    //the above piece of code had heavy influence from w3schools page on 2D vectors. please see report for full details
 
     double totalMoney = 0.0; // set total money to 0
 
@@ -137,7 +137,7 @@ int main() {
                         << " | Stock: " << item.stockCount
                         << (item.isAvailable ? " | Available" : " | Out of Stock")
                         << '\n';
-                }
+                } // the above piece of code had heavy influence from w3schools page on 2D vectors. please see report for full details
             }
             break;
         case 4:
@@ -149,7 +149,7 @@ int main() {
         default:
             std::cout << "Invalid choice. Please select again.\n";
         }
-    } while (choice != 4);
+    } while (choice != 5);
 
     return 0;
 }
