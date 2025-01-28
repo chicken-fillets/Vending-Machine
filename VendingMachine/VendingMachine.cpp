@@ -8,7 +8,7 @@
 struct Item {
     /*I'm not sure exactly why i need to define this string here but it didn't compile
     * without it and a guy on stackoverflow said this would fix it. Bizarre times.
-    * 
+    * edit. found it, i think it@s because i created my constructor right after this. my bad
     */
     std::string name;
     double price;
@@ -36,6 +36,38 @@ void inputMoney(double& totalMoney) {
     }
 }
 
+void buyItem(double& totalMoney, std::vector<std::vector<Item>>& vendingMachine) {
+    // declaring the vector here caused me serious issues, see spec sheet for more details
+    int row, col;
+    std::cout << "Enter the row (0-4) of the item you want to buy: ";
+    std::cin >> row;
+    std::cout << "Enter the column (0-4) of the item you want to buy: ";
+    std::cin >> col;
+
+    // validate coordinates
+    if (row < 0 || row >= 5 || col < 0 || col >= 5) {
+        std::cout << "invalid item!\n";
+        return;
+    }
+
+    Item& item = vendingMachine[row][col];
+
+    // Check availability and funds
+    if (!item.isAvailable) {
+        std::cout << "the item that you selected: \"" << item.name << "\" is out of stock. sorry!\n";
+    }
+    else if (totalMoney < item.price) {
+        std::cout << "not enough money for \"" << item.name << "\". You need £"
+            << item.price - totalMoney << " more!\n";
+    }
+    else {
+        // dispense chosen item
+        totalMoney -= item.price;
+        item.stockCount--;
+        item.isAvailable = (item.stockCount > 0);
+        std::cout << "thank you for buying \"" << item.name << "\"! Your new balance is £" << totalMoney << ".\n";
+    }
+}
 
 int main() {
     // Create a 5x5 vending machine grid
@@ -80,7 +112,7 @@ int main() {
         std::cout << "\nVending Machine Menu:\n";
         std::cout << "1. Input money\n";
         std::cout << "2. View total money\n";
-        std::cout << "3. Display Full Selection\n";
+        std::cout << "3. Display full selection\n";
         std::cout << "4. Exit\n";
         std::cout << "Enter your choice: ";
         std::cin >> choice;
