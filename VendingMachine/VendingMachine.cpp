@@ -55,10 +55,12 @@ void buyItem(double& totalMoney, std::vector<std::vector<Item>>& vendingMachine)
     // Check availability and funds
     if (!item.isAvailable) {
         std::cout << "the item that you selected: \"" << item.name << "\" is out of stock. sorry!\n";
+        return;
     }
     else if (totalMoney < item.price) {
         std::cout << "not enough money for \"" << item.name << "\". You need £"
             << item.price - totalMoney << " more!\n";
+        return;
     }
     else {
         // dispense chosen item
@@ -110,10 +112,11 @@ int main() {
     int choice;
     do {
         std::cout << "\nVending Machine Menu:\n";
-        std::cout << "1. Input money\n";
-        std::cout << "2. View total money\n";
-        std::cout << "3. Display full selection\n";
-        std::cout << "4. Exit\n";
+        std::cout << "1. Input money!\n";
+        std::cout << "2. View total money!\n";
+        std::cout << "3. Display full selection!\n";
+        std::cout << "4. Buy an item!\n";
+        std::cout << "5. Exit!\n";
         std::cout << "Enter your choice: ";
         std::cin >> choice;
 
@@ -138,6 +141,9 @@ int main() {
             }
             break;
         case 4:
+            buyItem(totalMoney, vendingMachine); // Call the function to buy an item
+            break;
+        case 5:
             std::cout << "see you later!\n";
             break;
         default:
