@@ -10,7 +10,7 @@ using std::vector;
 struct Item {
     /*I'm not sure exactly why i need to define this string here but it didn't compile
     * without it and a guy on stackoverflow said this would fix it. Bizarre times.
-    * edit. found it, i think it@s because i created my constructor right after this. my bad
+    * edit. found it, i think it@s because i created my vector right after this. my bad
     */
     string name;
     double price;
@@ -134,7 +134,7 @@ int main() {
             for (int i = 0; i < vendingMachine.size(); ++i) {
                 for (int j = 0; j < vendingMachine[i].size(); ++j) {
                     const Item& item = vendingMachine[i][j];
-                    cout << "Item at (" << i << ", " << j << "): "
+                    cout << "(" << i << ", " << j << "): "
                         << item.name << " | £" << item.price
                         << " | Stock: " << item.stockCount
                         << (item.isAvailable ? " | Available" : " | Out of Stock")
